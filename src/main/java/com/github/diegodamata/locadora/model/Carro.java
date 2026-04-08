@@ -3,10 +3,12 @@ package com.github.diegodamata.locadora.model;
 public class Carro {
 
     private String modelo;
+    private String placa;
     private double valorDiaria;
 
-    public Carro(String modelo, double valorDiaria) {
+    public Carro(String modelo, String placa, double valorDiaria) {
         this.modelo = modelo;
+        this.placa = placa;
         this.valorDiaria = valorDiaria;
     }
 
@@ -20,6 +22,14 @@ public class Carro {
 
     public void setModelo(String modelo) {
         this.modelo = modelo;
+    }
+
+    public String getPlaca() {
+        return placa;
+    }
+
+    public void setPlaca(String placa) {
+        this.placa = placa;
     }
 
     public double getValorDiaria() {
