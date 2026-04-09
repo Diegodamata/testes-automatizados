@@ -42,4 +42,20 @@ class ReservaTest {
                 .isInstanceOf(ReservaInvalidaException.class)
                 .hasMessage("Quantidade de dias deve ser maior que 0");
     }
+
+
+    @Test
+    @DisplayName("Deve calcular corretamente o valor da reserva")
+    void deveCalcularValorReserva(){
+        var reserva = new Reserva(cliente, carro, 3);
+
+        double valorReserva = reserva.valorDaReserva();
+
+        //JUnit
+        Assertions.assertNotNull(valorReserva);
+        Assertions.assertEquals(300.0, valorReserva);
+
+        //Assertj
+        assertThat(valorReserva).isEqualTo(300.0);
+    }
 }
