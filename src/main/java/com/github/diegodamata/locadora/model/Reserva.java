@@ -9,6 +9,9 @@ public class Reserva {
     private int quantidaDeDias;
 
     public Reserva(Cliente cliente, Carro carro, int quantidaDeDias) {
+        if (quantidaDeDias < 1){
+            throw new ReservaInvalidaException("Quantidade de dias deve ser maior que 0");
+        }
         this.cliente = cliente;
         this.carro = carro;
         this.quantidaDeDias = quantidaDeDias;
@@ -39,9 +42,6 @@ public class Reserva {
     }
 
     public double valorDaReserva(){
-        if (quantidaDeDias <= 0){
-            throw new ReservaInvalidaException("Quantidade de dias deve ser maior que 0");
-        }
-        return carro.calcularValorAluguel(quantidaDeDias);
+        return this.carro.calcularValorAluguel(this.quantidaDeDias);
     }
 }
