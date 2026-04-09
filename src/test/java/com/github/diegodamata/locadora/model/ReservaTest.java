@@ -1,5 +1,7 @@
 package com.github.diegodamata.locadora.model;
 
+import static org.assertj.core.api.Assertions.*;
+import com.github.diegodamata.locadora.exeptions.ReservaInvalidaException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -24,5 +26,20 @@ class ReservaTest {
         var reserva = new Reserva(cliente, carro, quantidadeDeDias);
 
         Assertions.assertNotNull(reserva);
+    }
+
+    @Test
+    @DisplayName("Deve dar erro ao criar uma reserva com dias negativo")
+    void deveDarErroAoCriarUmaRservaComDiasNegativo(){
+        // JUnit
+        Assertions.assertThrows(ReservaInvalidaException.class, () -> new Reserva(cliente, carro, 0));
+        Assertions.assertDoesNotThrow(() -> new Reserva(cliente, carro, 1));
+
+        //AssertJ
+        var erro = catchThrowable(() -> new Reserva(cliente, carro, 0));
+
+        assertThat(erro)
+                .isInstanceOf(ReservaInvalidaException.class)
+                .hasMessage("Quantidade de dias deve ser maior que 0");
     }
 }
