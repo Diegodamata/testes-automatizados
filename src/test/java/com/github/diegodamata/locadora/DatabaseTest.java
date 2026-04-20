@@ -1,5 +1,6 @@
 package com.github.diegodamata.locadora;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -24,5 +25,10 @@ public class DatabaseTest {
     void insertUserTest() throws Exception{
         connection.createStatement()
                 .execute("insert into users(id, nome) values (1, 'Diego')");
+    }
+
+    @AfterAll
+    static void closeDatabase() throws Exception{
+        connection.close();
     }
 }
