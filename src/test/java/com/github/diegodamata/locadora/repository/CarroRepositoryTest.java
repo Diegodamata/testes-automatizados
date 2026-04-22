@@ -45,4 +45,14 @@ class CarroRepositoryTest {
         assertThat(carroEncontrado.get().getModelo()).isEqualTo("Honda Civic");
     }
 
+    @Test
+    void deveAtualizarCarro(){
+        var carroSalvo = repository.save(carro);
+
+        carroSalvo.setAno(2028);
+
+        var carroAtualizado = repository.save(carroSalvo);
+
+        assertThat(carroAtualizado.getAno()).isEqualTo(2028);
+    }
 }
