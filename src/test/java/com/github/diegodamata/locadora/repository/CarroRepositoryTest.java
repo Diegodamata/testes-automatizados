@@ -55,4 +55,15 @@ class CarroRepositoryTest {
 
         assertThat(carroAtualizado.getAno()).isEqualTo(2028);
     }
+
+    @Test
+    void deveDeletarUmCarroPorId(){
+        var carroSalvo = repository.save(carro);
+
+        repository.deleteById(carroSalvo.getId());
+
+        var carroEncontrado = repository.findById(carroSalvo.getId());
+
+        assertThat(carroEncontrado).isEmpty();
+    }
 }
