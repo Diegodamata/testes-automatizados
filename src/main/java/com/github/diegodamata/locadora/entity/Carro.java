@@ -11,13 +11,15 @@ public class Carro {
     private Long id;
     private String modelo;
     private double valorDiaria;
+    private int ano;
 
     public Carro(){
     }
 
-    public Carro(String modelo, double valorDiaria) {
+    public Carro(String modelo, double valorDiaria, int ano) {
         this.modelo = modelo;
         this.valorDiaria = valorDiaria;
+        this.ano = ano;
     }
 
     public Long getId() {
@@ -42,5 +44,13 @@ public class Carro {
 
     public void setValorDiaria(double valorDiaria) {
         this.valorDiaria = valorDiaria;
+    }
+
+    public int getAno() {
+        return ano;
+    }
+
+    public void setAno(int ano) {
+        this.ano = ano;
     }
 }
