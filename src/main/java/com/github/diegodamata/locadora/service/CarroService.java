@@ -5,6 +5,8 @@ import com.github.diegodamata.locadora.exeptions.EntityNotFoundException;
 import com.github.diegodamata.locadora.repository.CarroRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CarroService {
 
@@ -45,5 +47,9 @@ public class CarroService {
     public Carro buscarPorId(Long id){
         return repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Carro não encontrado!"));
+    }
+
+    public List<Carro> listarTodos(){
+        return repository.findAll();
     }
 }
