@@ -35,4 +35,10 @@ public class CarroService {
         carroEncontrado.setModelo(carro.getModelo());
         carroEncontrado.setValorDiaria(carro.getValorDiaria());
     }
+
+    public void deletar(Long id){
+        var carroEncontrado = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Carro não encontrado!"));
+        repository.deleteById(id);
+    }
 }
