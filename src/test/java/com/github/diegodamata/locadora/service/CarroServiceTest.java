@@ -2,14 +2,13 @@ package com.github.diegodamata.locadora.service;
 
 import com.github.diegodamata.locadora.entity.Carro;
 import com.github.diegodamata.locadora.repository.CarroRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -41,5 +40,16 @@ class CarroServiceTest {
         assertEquals("Honda HRV", carroSalvo.getModelo());
 
         Mockito.verify(carroRepository).save(Mockito.any());
+    }
+
+    @Test
+    void deveDarErroAoSalvarCarroComDiariaNegativa(){
+        Carro carro = new Carro("Honda HRV", 0, 2015);
+
+        var erro = Assertions.catchThrowable(() -> carroService.salvar(carro));
+
+        Assertions.assertThat(erro).isInstanceOf(IllegalArgumentException.class);
+
+        Mockito.verify(carroRepository, Mockito.never()).save(Mockito.any());
     }
 }
