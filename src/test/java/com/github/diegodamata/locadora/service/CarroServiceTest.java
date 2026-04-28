@@ -28,13 +28,18 @@ class CarroServiceTest {
     @Test
     void deveSalvarUmCarro(){
 
-        // mock ele é vazio, se chamar algum valor ele retornara o valor padrao
-        // para criar testes eu preciso forcar uma possivel busca de dados
+        Carro carroParaSalvar = new Carro("Honda HRV", 150.0, 2015);
 
-        Mockito.when(carroRepository.findById(1L))
-                .thenReturn(Optional.of(new Carro("Honda HRV", 150.0, 2015)));
+        Carro carroSalvo = new Carro("Honda HRV", 150.0, 2015);
+        carroSalvo.setId(1L);
 
-        Optional<Carro> carroEncontrado = carroRepository.findById(1L);
-        System.out.println(carroEncontrado.get().getModelo());
+        Mockito.when(carroRepository.save(Mockito.any())).thenReturn(carroSalvo);
+
+        Carro carro = carroService.salvar(carroParaSalvar);
+
+        assertNotNull(carro);
+        assertEquals("Honda HRV", carroSalvo.getModelo());
+
+        Mockito.verify(carroRepository).save(Mockito.any());
     }
 }
