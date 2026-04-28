@@ -10,6 +10,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class) //para ativar o plugin do mockito, para simular moks na minha casse
@@ -51,5 +53,25 @@ class CarroServiceTest {
         Assertions.assertThat(erro).isInstanceOf(IllegalArgumentException.class);
 
         Mockito.verify(carroRepository, Mockito.never()).save(Mockito.any());
+    }
+
+    @Test
+    void deveAtualizarUmCarro(){
+
+        var carroEncontrado = new Carro("Gol", 100.0, 2015);
+        Mockito.when(carroRepository.findById(1L)).thenReturn(Optional.of(carroEncontrado));
+
+        var carroAtualizado = new Carro("Gol", 100.0, 2015);
+        Mockito.when(carroRepository.save(Mockito.any())).thenReturn(carroAtualizado);
+
+        Long id = 1L;
+        var carro = new Carro("Honda HRV", 0, 2015);
+
+        var resultado = carroService.atualizar(id, carro);
+
+        assertEquals("Gol", resultado.getModelo());
+        assertEquals(100.0, resultado.getValorDiaria());
+
+        Mockito.verify(carroRepository, Mockito.times(1)).save(Mockito.any());
     }
 }
