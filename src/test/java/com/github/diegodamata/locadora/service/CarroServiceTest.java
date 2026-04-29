@@ -1,6 +1,7 @@
 package com.github.diegodamata.locadora.service;
 
 import com.github.diegodamata.locadora.entity.Carro;
+import com.github.diegodamata.locadora.exeptions.EntityNotFoundException;
 import com.github.diegodamata.locadora.repository.CarroRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -73,5 +74,19 @@ class CarroServiceTest {
         assertEquals(100.0, resultado.getValorDiaria());
 
         Mockito.verify(carroRepository, Mockito.times(1)).save(Mockito.any());
+    }
+
+    @Test
+    void deveDarErroAoAtualizarCarroInexistente(){
+        Long id = 1L;
+        var carro = new Carro("Honda HRV", 150.0, 2015);
+
+        Mockito.when(carroRepository.findById(Mockito.any())).thenReturn(Optional.empty());
+
+        var erro = Assertions.catchThrowable(() -> carroService.atualizar(id, carro));
+
+        Assertions.assertThat(erro).isInstanceOf(EntityNotFoundException.class);
+
+        Mockito.verify(carroRepository, Mockito.never()).save(Mockito.any());
     }
 }
