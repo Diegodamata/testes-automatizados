@@ -89,4 +89,16 @@ class CarroServiceTest {
 
         Mockito.verify(carroRepository, Mockito.never()).save(Mockito.any());
     }
+
+    @Test
+    void deveDeletarUmCarroPorId(){
+        Long id = 1L;
+        var carro = new Carro("Honda HRV", 150.0, 2015);
+
+        Mockito.when(carroRepository.findById(id)).thenReturn(Optional.of(carro));
+
+        carroService.deletar(id);
+
+        Mockito.verify(carroRepository, Mockito.times(1)).deleteById(Mockito.any());
+    }
 }
