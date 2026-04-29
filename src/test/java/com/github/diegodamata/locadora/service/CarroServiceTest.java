@@ -101,4 +101,17 @@ class CarroServiceTest {
 
         Mockito.verify(carroRepository, Mockito.times(1)).deleteById(Mockito.any());
     }
+
+    @Test
+    void deveDarErroAoDeletarCarroPorId(){
+
+        Mockito.when(carroRepository.findById(Mockito.any())).thenReturn(Optional.empty());
+
+        var erro = Assertions.catchThrowable(() -> carroService.deletar(1L));
+
+        Assertions.assertThat(erro).isInstanceOf(EntityNotFoundException.class);
+        Assertions.assertThat(erro).hasMessage("Carro não encontrado!", erro.getMessage());
+
+        Mockito.verify(carroRepository, Mockito.never()).deleteById(Mockito.any());
+    }
 }
