@@ -128,4 +128,14 @@ class CarroServiceTest {
 
         Mockito.verify(carroRepository, Mockito.atLeastOnce()).findById(Mockito.any());
     }
+
+    @Test
+    void deveDarErroAoBuscarCarroPorId(){
+        Mockito.when(carroRepository.findById(Mockito.any())).thenReturn(Optional.empty());
+
+        var erro = Assertions.catchThrowable(() -> carroService.buscarPorId(1L));
+
+        Assertions.assertThat(erro).isInstanceOf(EntityNotFoundException.class);
+        Assertions.assertThat(erro).hasMessage("Carro não encontrado!", erro.getMessage());
+    }
 }
