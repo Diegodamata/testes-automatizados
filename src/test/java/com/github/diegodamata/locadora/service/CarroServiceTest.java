@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -137,5 +138,20 @@ class CarroServiceTest {
 
         Assertions.assertThat(erro).isInstanceOf(EntityNotFoundException.class);
         Assertions.assertThat(erro).hasMessage("Carro não encontrado!", erro.getMessage());
+    }
+
+    @Test
+    void deveListarTodosCarros(){
+        var carro = new Carro("Honda HRV", 150.0, 2015);
+        var carro2 = new Carro("Honda Civic", 100.0, 2013);
+
+        var lista = List.of(carro, carro2);
+        Mockito.when(carroRepository.findAll()).thenReturn(lista);
+
+        List<Carro> resultado = carroService.listarTodos();
+
+        Assertions.assertThat(resultado).hasSize(2);
+        Mockito.verify(carroRepository, Mockito.times(1)).findAll();
+        Mockito.verifyNoMoreInteractions(carroRepository); //verificar se nao teve mais interacoes
     }
 }
