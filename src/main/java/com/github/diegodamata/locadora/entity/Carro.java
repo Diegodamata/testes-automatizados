@@ -22,6 +22,11 @@ public class Carro {
         this.ano = ano;
     }
 
+    public Carro(Long id, String modelo, double valorDiaria, int ano) {
+        this(modelo, valorDiaria, ano);
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }
