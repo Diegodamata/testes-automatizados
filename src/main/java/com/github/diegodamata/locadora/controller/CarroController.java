@@ -45,4 +45,14 @@ public class CarroController {
     public ResponseEntity<List<Carro>> listarTodos(){
         return ResponseEntity.ok(carroService.listarTodos());
     }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Void> atualizar(@PathVariable("id") Long id, @RequestBody Carro carro){
+        try {
+            carroService.atualizar(id, carro);
+            return ResponseEntity.noContent().build();
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.noContent().build();
+        }
+    }
 }
