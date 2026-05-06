@@ -78,7 +78,7 @@ public class CarroControllerTest {
     }
 
     @Test
-    void deveListarTodosOsCarros() throws Exception{
+    void deveListarTodosOsCarros() throws Exception {
         var listCarros = List.of(
                 new Carro(1L, "Camaro", 350, 2017),
                 new Carro(1L, "Sonata", 250, 2013)
@@ -92,5 +92,26 @@ public class CarroControllerTest {
         ).andExpect(MockMvcResultMatchers.status().isOk())
          .andExpect(MockMvcResultMatchers.jsonPath("$[0].modelo").value("Camaro"))
          .andExpect(MockMvcResultMatchers.jsonPath("$[1].modelo").value("Sonata"));
+    }
+
+    @Test
+    void deveAtualizarUmCarro() throws Exception {
+        Mockito.when(carroService.atualizar(Mockito.any(), Mockito.any()))
+                .thenReturn(new Carro(1L, "Camaro", 350, 2017));
+
+        String json = """
+                {
+                    "modelo": "Camaro",
+                    "valorDiaria": 350,
+                    "ano": 2017                                      
+                }
+        """;
+
+        mvc.perform(
+                MockMvcRequestBuilders.post("/carros/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json)
+
+        ).andExpect(MockMvcResultMatchers.status().isNoContent());
     }
 }
