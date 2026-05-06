@@ -1,6 +1,7 @@
 package com.github.diegodamata.locadora.controller;
 
 import com.github.diegodamata.locadora.entity.Carro;
+import com.github.diegodamata.locadora.exeptions.EntityNotFoundException;
 import com.github.diegodamata.locadora.service.CarroService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -62,5 +63,15 @@ public class CarroControllerTest {
          .andExpect(MockMvcResultMatchers.jsonPath("$.modelo").value("Camaro"))
          .andExpect(MockMvcResultMatchers.jsonPath("$.valorDiaria").value(350))
          .andExpect(MockMvcResultMatchers.jsonPath("$.ano").value(2017));
+    }
+
+    @Test
+    void deveRetornarNotFoundAoTentarBuscarDetalhesDeUmCarroPorIdInexistente() throws Exception{
+        Mockito.when(carroService.buscarPorId(Mockito.any()))
+                .thenThrow(EntityNotFoundException.class);
+
+        mvc.perform(
+                        MockMvcRequestBuilders.get("/carros/2")
+                ).andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 }
