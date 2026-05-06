@@ -14,6 +14,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.List;
+
 @WebMvcTest(CarroController.class) //anotacao do spring usada para testes unitarios na camada web (controller)
 //carrega apenas componentes necessario para testar, nao o contexto completo da aplicacao
 public class CarroControllerTest {
@@ -73,5 +75,22 @@ public class CarroControllerTest {
         mvc.perform(
                         MockMvcRequestBuilders.get("/carros/2")
                 ).andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+
+    @Test
+    void deveListarTodosOsCarros() throws Exception{
+        var listCarros = List.of(
+                new Carro(1L, "Camaro", 350, 2017),
+                new Carro(1L, "Sonata", 250, 2013)
+        );
+
+        Mockito.when(carroService.listarTodos())
+                .thenReturn(listCarros);
+
+        mvc.perform(
+                MockMvcRequestBuilders.get("/carros")
+        ).andExpect(MockMvcResultMatchers.status().isOk())
+         .andExpect(MockMvcResultMatchers.jsonPath("$[0].modelo").value("Camaro"))
+         .andExpect(MockMvcResultMatchers.jsonPath("$[1].modelo").value("Sonata"));
     }
 }
