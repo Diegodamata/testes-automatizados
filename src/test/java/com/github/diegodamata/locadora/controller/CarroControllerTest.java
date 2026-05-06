@@ -50,4 +50,17 @@ public class CarroControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.modelo").value("Honda Civic"));
     }
+
+    @Test
+    void deveBuscarDetalhesDeUmCarroPorId() throws Exception{
+        Mockito.when(carroService.buscarPorId(Mockito.any()))
+                .thenReturn(new Carro(1L, "Camaro", 350, 2017));
+
+        mvc.perform(
+                MockMvcRequestBuilders.get("/carros/1")
+        ).andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
+         .andExpect(MockMvcResultMatchers.jsonPath("$.modelo").value("Camaro"))
+         .andExpect(MockMvcResultMatchers.jsonPath("$.valorDiaria").value(350))
+         .andExpect(MockMvcResultMatchers.jsonPath("$.ano").value(2017));
+    }
 }
