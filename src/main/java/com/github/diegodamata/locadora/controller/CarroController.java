@@ -52,7 +52,17 @@ public class CarroController {
             carroService.atualizar(id, carro);
             return ResponseEntity.noContent().build();
         } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deletar(@PathVariable("id") Long id){
+        try {
+            carroService.deletar(id);
             return ResponseEntity.noContent().build();
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
         }
     }
 }

@@ -100,18 +100,38 @@ public class CarroControllerTest {
                 .thenReturn(new Carro(1L, "Camaro", 350, 2017));
 
         String json = """
-                {
-                    "modelo": "Camaro",
-                    "valorDiaria": 350,
-                    "ano": 2017                                      
-                }
-        """;
+                    {
+                        "modelo": "Camaro",
+                        "valorDiaria": 350,
+                        "ano": 2017
+                    }
+                """;
 
         mvc.perform(
-                MockMvcRequestBuilders.post("/carros/1")
+                MockMvcRequestBuilders.put("/carros/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json)
 
         ).andExpect(MockMvcResultMatchers.status().isNoContent());
+    }
+
+    @Test
+    void deveRetornarNotFoundAoTentarAtualizarDetalhesDeUmCarroPorIdInexistente() throws Exception {
+        Mockito.when(carroService.atualizar(Mockito.any(), Mockito.any()))
+                .thenThrow(EntityNotFoundException.class);
+
+        String json = """
+                    {
+                        "modelo": "Camaro",
+                        "valorDiaria": 350,
+                        "ano": 2017
+                    }
+                """;
+
+        mvc.perform(
+                MockMvcRequestBuilders.put("/carros/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json)
+        ).andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 }
