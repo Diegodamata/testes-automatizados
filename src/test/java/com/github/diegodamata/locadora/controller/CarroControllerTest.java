@@ -140,9 +140,18 @@ public class CarroControllerTest {
 
         //como é um metodo que não retorna nada, para não cair na exception
         //eu digo ao meu mock para não fazer nada quando chamar o mock carro service no metodo deletar passando qualquer id
+        //quando o metodo não tem retorno, para testar é chamado doNothing e doThrow
         Mockito.doNothing().when(carroService).deletar(Mockito.any());
 
         mvc.perform(MockMvcRequestBuilders.delete("/carros/1"))
                 .andExpect(MockMvcResultMatchers.status().isNoContent());
+    }
+
+    @Test
+    void deveRetornarNotFoundAoTentarDeletarUmCarroPorIdInexistente() throws Exception {
+        Mockito.doThrow(EntityNotFoundException.class).when(carroService).deletar(Mockito.any());
+
+        mvc.perform(MockMvcRequestBuilders.delete("/carros/1"))
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 }
