@@ -134,4 +134,15 @@ public class CarroControllerTest {
                         .content(json)
         ).andExpect(MockMvcResultMatchers.status().isNotFound());
     }
+
+    @Test
+    void deveDeletarUmCarroPorId() throws Exception {
+
+        //como é um metodo que não retorna nada, para não cair na exception
+        //eu digo ao meu mock para não fazer nada quando chamar o mock carro service no metodo deletar passando qualquer id
+        Mockito.doNothing().when(carroService).deletar(Mockito.any());
+
+        mvc.perform(MockMvcRequestBuilders.delete("/carros/1"))
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+    }
 }
