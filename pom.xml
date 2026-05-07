@@ -52,6 +52,41 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<!--adicionando o plugin do JaCoCo (Java Code Coverage) é uma biblioteca
+				de código aberto popular para medir a cobertura de testes em projetos Java
+				ele gera relatorio detalhado para saber quais linhas de codigo foi testado-->
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.12</version>
+
+				<!--uma configuração para excluir o pacote model e entity da aferição do jacoco pois classes de dominio não sao testadas-->
+				<configuration>
+					<excludes>
+						<exclude>**/model\**</exclude> <!--qualquer pacote que venha antes do model e depois-->
+						<exclude>**/entity\**</exclude>
+					</excludes>
+				</configuration>
+
+				<executions>
+					<!--execuções do jacoco que é um agente que funciona para colotar os dados da aplicação-->
+					<execution>
+						<id>prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+
+					<!--execuções do jacoco que é gerar um relatorio sobre os dados da aplicação o que foi testado ou nao-->
+					<execution>
+						<id>report</id>
+						<phase>verify</phase> <!--o relatorio é feito na fase verify-->
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 

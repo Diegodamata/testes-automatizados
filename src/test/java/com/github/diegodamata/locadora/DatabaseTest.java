@@ -26,7 +26,7 @@ class DatabaseTest {
     }
 
     @Test
-    @Disabled
+//    @Disabled
     void verificarUserExisteTest() throws Exception{
         var result = connection.createStatement()
                 .executeQuery("select * from users where id = 1");
